@@ -78,10 +78,10 @@ int validate_db_header(int fd, struct dbheader_t **headerOut) {
   *headerOut = header;
   return STATUS_SUCCESS;
 }
-int read_employees(int fd, struct dbheader_t *headerOut,
-                   struct employee_t **employeeOut) {
-  return 0;
-};
+// int read_employees(int fd, struct dbheader_t *headerOut,
+//                    struct employee_t **employeeOut) {
+//   return 0;
+// };
 
 int output_file(int fd, struct dbheader_t *dbhdr) {
   if (fd < 0) {
