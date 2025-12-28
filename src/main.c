@@ -58,9 +58,9 @@ int main(int argc, char *argv[]) {
     } else {
       printf("Created new database file at %s\n", filepath);
     }
-    if (create_db_header(dbfd, &header) == STATUS_ERROR) {
+    if (create_db_header(/*dbfd, */&header) == STATUS_ERROR) {
       printf("Unable to create database file header.\n");
-      close(dbfd);
+      // close(dbfd);
       return -1;
     } else {
       printf("Created new database file header.\n");
