@@ -155,6 +155,10 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees,
 }
 
 void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees) {
+  if (dbhdr == NULL || employees == NULL) {
+    printf("Invalid parameters to list_employees\n");
+    return;
+  }
   int i = 0;
   printf("Employee List:\n");
   for (; i < dbhdr->count; i++) {
