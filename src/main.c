@@ -106,5 +106,7 @@ void print_usage(char *argv[]) {
   printf("Usage: %s -n -f <database file>\n", argv[0]);
   printf("\t-n\t\tCreate a new file\n");
   printf("\t-f <filepath> Specify the file path (required)\n");
+  printf("\t-a <\"name,address,hours\">\tAdd an employee with the specified details (csv format)\n");
+  printf("\t-l\t\tList all employees in the database\n");
   return;
 }

@@ -9,11 +9,12 @@
 #include "common.h"
 #include "parse.h"
 
-int create_db_header(int fd, struct dbheader_t **headerOut) {
-  if (fd < 0) {
-    printf("Invalid file descriptor\n");
-    return STATUS_ERROR;
-  };
+int create_db_header(/*int fd, */struct dbheader_t **headerOut) {
+  
+  // if (fd < 0) {
+  //   printf("Invalid file descriptor\n");
+  //   return STATUS_ERROR;
+  // };
 
   struct dbheader_t *header = calloc(1, sizeof(struct dbheader_t));
 
