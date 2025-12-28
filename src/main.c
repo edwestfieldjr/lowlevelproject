@@ -94,7 +94,10 @@ int main(int argc, char *argv[]) {
   }
 
   if (list) {
-    list_employees(header, employees);
+    if (list_employees(header, employees) != STATUS_SUCCESS) {
+      printf("Unable to list employees from database.\n");
+      return -1;
+    }
   }
 
   output_file(dbfd, header, employees);
