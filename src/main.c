@@ -13,18 +13,27 @@ void print_usage(char *argv[]);
 int main(int argc, char *argv[]) {
 
   char *filepath = NULL;
+  char *addstring = NULL;
   bool newfile = false;
+  bool list = false;
   int c;
   int dbfd = -1;
   struct dbheader_t *header = NULL;
+  struct employee_t *employees = NULL;
 
-  while ((c = getopt(argc, argv, "nf:")) != -1) {
+  while ((c = getopt(argc, argv, "nf:a:l")) != -1) {
     switch (c) {
     case 'n':
       newfile = true;
       break;
     case 'f':
       filepath = optarg;
+      break;
+    case 'a':
+      addstring = optarg;
+      break;
+    case 'l':
+      list = true;
       break;
     case '?':
       printf("Unknown option: -%c\n", c);
@@ -46,27 +55,49 @@ int main(int argc, char *argv[]) {
     if (dbfd == STATUS_ERROR) {
       printf("Unable to create new database file.\n");
       return -1;
+    } else {
+      printf("Created new database file at %s\n", filepath);
     }
-    create_db_header(dbfd, &header);
+    if (create_db_header(dbfd, &header) == STATUS_ERROR) {
+      printf("Unable to create database file header.\n");
+      close(dbfd);
+      return -1;
+    } else {
+      printf("Created new database file header.\n");
+    }
   } else {
     dbfd = open_db_file(filepath);
     if (dbfd == STATUS_ERROR) {
       printf("Unable to open database file.\n");
       return -1;
-    }
+    } /* else {
+      printf("Opened database file at %s\n", filepath);
+    } */
     if (validate_db_header(dbfd, &header) == STATUS_ERROR) {
       printf("Database file header is invalid.\n");
-      close(dbfd);
       return -1;
+    } /* else {
+      printf("Database file header is valid.\n");
+    } */
+  }
+
+  if (read_employees(dbfd, header, &employees) != STATUS_SUCCESS) {
+    printf("Unable to read employees from database file.\n");
+    return -1;
+  }
+
+  if (addstring != NULL) {
+    if (add_employee(header, &employees, addstring) != STATUS_SUCCESS) {
+      printf("Unable to add employee to database.\n");
+      return STATUS_ERROR;
     }
   }
 
-  // printf("Newfile: %d\n", newfile);
-  // printf("Filepath: %s\n", filepath);
-  output_file(dbfd, header);
+  if (list) {
+    list_employees(header, employees);
+  }
 
-  // free(header);
-  // close(dbfd);
+  output_file(dbfd, header, employees);
 
   return 0;
 }
